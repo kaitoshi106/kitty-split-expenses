@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "outDir": "../../dist/migrations",
+    "module": "commonjs",
+    "moduleResolution": "node10",
+    "noEmit": false,
+    "declaration": false,
+    "sourceMap": false,
+    "importHelpers": false
+  },
+  "include": [
+    "src/data-source.ts",
+    "src/entities/**/*.ts",
+    "src/migrations/**/*.ts",
+    "src/common/transformers/**/*.ts"
+  ]
+}

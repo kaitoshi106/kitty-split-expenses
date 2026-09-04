@@ -1,0 +1,3 @@
+# apps/api/e2e has a package.json only to set "type": "module" for Node's ESM
+# .ts runner. It is not an Nx project; without this Nx reports "project has no name".
+apps/api/e2e

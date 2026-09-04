@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: kitty-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: kitty
+      POSTGRES_PASSWORD: kitty_dev_password
+      POSTGRES_DB: kitty
+    ports:
+      # Host 5434 avoids clashing with a locally installed Postgres
+      - '5434:5432'
+    volumes:
+      - kitty-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U kitty -d kitty']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  kitty-pgdata:
