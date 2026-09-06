@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <title>Kitty — Chia tiền nhóm</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <!-- Status bar color when installed to the home screen -->
+    <meta name="theme-color" content="#6366f1" />
+    <!-- iOS ignores manifest icons -->
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Kitty" />
+    <!--
+      Apply the theme synchronously before Angular boots to avoid a flash of the
+      light theme. localStorage can throw in private browsing, hence try/catch.
+    -->
+    <script>
+      try {
+        var t = localStorage.getItem('kitty.theme');
+        document.documentElement.dataset.theme =
+          t === 'light' || t === 'dark' ? t : 'system';
+      } catch (e) {
+        document.documentElement.dataset.theme = 'system';
+      }
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>

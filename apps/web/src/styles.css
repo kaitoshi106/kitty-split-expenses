@@ -1,0 +1,114 @@
+@import 'tailwindcss';
+
+/* Design tokens, exposed as utilities: bg-brand-500, bg-surface, text-credit, text-debit, ... */
+@theme {
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+
+  --color-credit: #059669; /* positive balance — is owed */
+  --color-debit: #dc2626; /* negative balance — owes */
+  --color-neutral-muted: #64748b; /* balance = 0 */
+
+  /**
+   * Raised surfaces: cards, modals, sticky headers. A role token rather than
+   * `bg-white` so it can change in dark mode. `text-white` on brand/credit/debit
+   * backgrounds stays literal white in both themes.
+   */
+  --color-surface: #ffffff;
+
+  /** Backdrop behind modals and the FAB menu. */
+  --color-scrim: oklch(0.21 0.034 264.665 / 0.5);
+}
+
+/**
+ * Dark mode
+ *
+ * Tailwind v4 compiles utilities to CSS variables (`.bg-slate-50` →
+ * `var(--color-slate-50)`), so dark mode remaps the palette here instead of
+ * adding `dark:` variants to every component.
+ *
+ * The slate scale is used by role (low steps for backgrounds, high steps for
+ * text), so inverting it keeps every role correct. Elevation must still get
+ * lighter as surfaces rise: page (slate-50) → tab bar (slate-100) → surface,
+ * i.e. #0d1420 → #161e2d → #1e2738; if surface matched slate-100, the selected
+ * tab would become invisible.
+ *
+ * data-theme="dark"   → always dark
+ * data-theme="light"  → always light
+ * data-theme="system" → follows the OS setting (default)
+ */
+@layer base {
+  html[data-theme='dark'],
+  html[data-theme='system'] {
+    color-scheme: light;
+  }
+
+  html[data-theme='dark'] {
+    color-scheme: dark;
+
+    --color-surface: #1e2738; /* cards, modals, selected tab */
+    --color-scrim: oklch(0 0 0 / 0.65);
+
+    --color-slate-50: #0d1420; /* page background — darkest */
+    --color-slate-100: #161e2d; /* tab bar, chips, chart track */
+    --color-slate-200: #2c3850; /* borders */
+    --color-slate-300: #3f4d68; /* muted icons */
+    --color-slate-400: #8794a8; /* secondary text */
+    --color-slate-500: #9fadc0; /* stronger secondary text */
+    --color-slate-600: #bcc8d8; /* body text */
+    --color-slate-700: #d5dde8; /* emphasized text */
+    --color-slate-800: #e5eaf2;
+    --color-slate-900: #f1f5f9; /* primary text */
+    --color-slate-950: #f8fafc;
+
+    /* Lighten semantic colors for contrast on dark backgrounds */
+    --color-credit: #34d399;
+    --color-debit: #f87171;
+    --color-neutral-muted: #94a3b8;
+    --color-brand-50: #232a45;
+    --color-brand-100: #2d3557;
+    --color-brand-600: #818cf8;
+    --color-brand-700: #a5b4fc;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html[data-theme='system'] {
+      color-scheme: dark;
+
+      --color-surface: #1e2738;
+      --color-scrim: oklch(0 0 0 / 0.65);
+
+      --color-slate-50: #0d1420;
+      --color-slate-100: #161e2d;
+      --color-slate-200: #2c3850;
+      --color-slate-300: #3f4d68;
+      --color-slate-400: #8794a8;
+      --color-slate-500: #9fadc0;
+      --color-slate-600: #bcc8d8;
+      --color-slate-700: #d5dde8;
+      --color-slate-800: #e5eaf2;
+      --color-slate-900: #f1f5f9;
+      --color-slate-950: #f8fafc;
+
+      --color-credit: #34d399;
+      --color-debit: #f87171;
+      --color-neutral-muted: #94a3b8;
+      --color-brand-50: #232a45;
+      --color-brand-100: #2d3557;
+      --color-brand-600: #818cf8;
+      --color-brand-700: #a5b4fc;
+    }
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
