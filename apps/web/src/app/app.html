@@ -1,0 +1,16 @@
+<!--
+  Outer frame: 480px on mobile, widens to 3xl on desktop.
+  Form screens narrow themselves further.
+-->
+<div class="mx-auto min-h-dvh w-full max-w-[480px] bg-surface shadow-sm md:max-w-3xl">
+  <router-outlet />
+</div>
+
+<!-- Scroll-to-top button shared by all screens; toggles itself based on scroll position -->
+<ui-scroll-top />
+
+<!-- Single toast host; every ToastService call renders here -->
+<ui-toast-host />
+
+<!-- Full-screen receipt viewer, available to every screen -->
+<ui-receipt-viewer />
