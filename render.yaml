@@ -1,0 +1,43 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Usage: New → Blueprint → select this repo.
+#
+# The database is not declared here: Render's free Postgres is deleted after
+# 30 days, so the app uses Neon instead. The DATABASE_* variables are
+# sync:false and are entered from Neon's connection details at creation time.
+services:
+  - type: web
+    name: kitty
+    runtime: docker
+    plan: free
+    # Keep the Neon database in ap-southeast-1 to stay close to this region.
+    region: singapore
+    branch: master
+    dockerfilePath: ./Dockerfile
+    # /api/health also checks the database connection, not just process liveness.
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SERVE_STATIC
+        value: 'true'
+      # Neon requires TLS; 'true' also verifies the certificate.
+      - key: DATABASE_SSL
+        value: 'true'
+      # Generated and stored by Render; never copied by hand.
+      - key: JWT_SECRET
+        generateValue: true
+      # sync:false: prompted at creation, taken from Neon's connection details.
+      - key: DATABASE_HOST
+        sync: false
+      - key: DATABASE_PORT
+        sync: false
+      - key: DATABASE_USER
+        sync: false
+      - key: DATABASE_PASSWORD
+        sync: false
+      - key: DATABASE_NAME
+        sync: false
+# PORT is not set: Render injects it and the app reads process.env.PORT.
+# No disk is declared: the free plan has no persistent disk, so receipt images
+# are stored in Postgres (see ReceiptEntity).

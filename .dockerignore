@@ -1,0 +1,11 @@
+node_modules
+dist
+.git
+.nx
+coverage
+tmp
+*.log
+apps/api/uploads
+apps/api/uploads-test
+.env
+apps/api/.env
